@@ -42,7 +42,9 @@ function playGame() {
         }
     }
 
-    for (let i = 1; i <= 5; i++) {
+    let forLength = parseInt(prompt("Digite o numero de rodadas!"))
+
+    for (let i = 1; i <= forLength; i++) {
         let humano = getHumanChoice()
 
         if (humano === null) {
