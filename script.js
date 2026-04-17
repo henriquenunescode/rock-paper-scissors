@@ -15,7 +15,7 @@ function getHumanChoice() {
     if (inputValorHumano == "pedra" || inputValorHumano == "papel" || inputValorHumano == "tesoura") {
         return inputValorHumano
     }
-    alert ("Invalido!")
+    alert("Invalido!")
     return null
 }
 
@@ -71,4 +71,9 @@ function playGame() {
 
 }
 
-playGame()
+let jogar = true
+
+while (jogar) {
+    playGame()
+    jogar = confirm("Quer jogar novamente?")
+}
