@@ -1,81 +1,74 @@
+let humanScore = 0;
+let computerScore = 0;
+
+const buttonsContainer = document.querySelector("#buttons");
+const divResults = document.querySelector("#results");
+
+buttonsContainer.addEventListener("click", (event) => {
+    let humanChoice;
+
+    switch (event.target.id) {
+        case "rock":
+            humanChoice = "pedra"
+            break
+        case "paper":
+            humanChoice = "papel"
+            break
+        case "scissors":
+            humanChoice = "tesoura"
+            break
+        default:
+            return
+    }
+
+    const computerChoice = getComputerChoice()
+    playRound(humanChoice, computerChoice)
+})
+
 function getComputerChoice() {
     let valorAleatorio = Math.floor(Math.random() * 3)
     if (valorAleatorio == 0) {
-        return "pedra"
+        return "pedra";
     } else if (valorAleatorio == 1) {
-        return "papel"
+        return "papel";
     } else {
-        return "tesoura"
+        return "tesoura";
     }
 }
 
-function getHumanChoice() {
-    let inputValorHumano = prompt("Escolha um entre: \n PEDRA \n PAPEL \n TESOURA").toLowerCase()
+function playRound(humanChoice, computerChoice) {
+    if (computerChoice == humanChoice) {
+        divResults.textContent = "Empate!";
+        return;
 
-    if (inputValorHumano == "pedra" || inputValorHumano == "papel" || inputValorHumano == "tesoura") {
-        return inputValorHumano
-    }
-    alert("Invalido!")
-    return null
-}
+    } else if (
+        (computerChoice == "pedra" && humanChoice == "papel") ||
+        (computerChoice == "papel" && humanChoice == "tesoura") ||
+        (computerChoice == "tesoura" && humanChoice == "pedra")
+    ) {
 
-function playGame() {
-    let humanScore = 0
-    let computerScore = 0;
+        humanScore++;
 
-    function playRound(humanChoice, computerChoice) {
-        if (computerChoice == humanChoice) {
-            return "Empate!"
-
-        } else if (
-            (computerChoice == "pedra" && humanChoice == "papel") ||
-            (computerChoice == "papel" && humanChoice == "tesoura") ||
-            (computerChoice == "tesoura" && humanChoice == "pedra")
-        ) {
-            humanScore++
-            return "Humano vence essa rodada!"
-
+        if (humanScore === 5) {
+            divResults.textContent = "Humano venceu! "
+            divResults.textContent += `Pontuação: ${humanScore} x ${computerScore}`
+            humanScore = 0;
+            computerScore = 0;
         } else {
-            computerScore++
-            return "Computador vence essa rodada!"
-
-        }
-    }
-
-    let forLength = parseInt(prompt("Digite o numero de rodadas!"))
-
-    for (let i = 1; i <= forLength; i++) {
-        let humano = getHumanChoice()
-
-        if (humano === null) {
-            i--
-            continue
+            divResults.textContent = "Humano vence essa rodada! pontuação: " + humanScore;
         }
 
-        let computador = getComputerChoice()
-        let result = playRound(humano, computador)
-
-        alert(
-            "Rodada " + i + "\n" +
-            "Computador: " + computador + "\n" +
-            "Você: " + humano + "\n" +
-            result
-        )
-    }
-
-    if (computerScore > humanScore) {
-        alert("Computador venceu! \n" + "Computador | " + computerScore + " X " + humanScore + " | Pessoa")
-    } else if (humanScore > computerScore) {
-        alert("Pessoa venceu! \n" + "Pessoa | " + humanScore + " X " + computerScore + " | Computador")
     } else {
-        alert("Empate!")
+
+        computerScore++;
+
+        if (computerScore === 5) {
+            divResults.textContent = "Computador venceu! "
+            divResults.textContent += `Pontuação: ${computerScore} x ${humanScore}`
+            humanScore = 0;
+            computerScore = 0;
+        } else {
+            divResults.textContent = "Computador vence essa rodada! pontuação: " + computerScore;
+        }
     }
-
-}
-
-let jogar = true
-
-while (jogar) {
-    playGame()
-    jogar = confirm("Quer jogar novamente?")
 }
